@@ -1,3 +1,4 @@
+import uuid
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -17,6 +18,11 @@ class Tag(models.Model):
 
 
 class Link(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False
+    )
     link_name = models.CharField(max_length=255)
     link_path = models.URLField()
     image = models.URLField()
@@ -28,4 +34,4 @@ class Link(models.Model):
         return self.link_name
 
     def get_absolute_url(self):
-        return reverse("link_detail", kwargs={"title: self.title"})
+        return reverse("link_detail", args=[str(self.id)])

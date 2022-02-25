@@ -28,7 +28,7 @@ class LinkDetailView(LoginRequiredMixin, DetailView):
 class LinkCreateView(LoginRequiredMixin, CreateView):
     model = Link
     template_name = "links/link_new.html"
-    fields = ("link_name", "link_path", "image", "notes", "tags")
+    fields = ("link_name", "link_path", "image", "notes")
 
     def form_valid(self, form):
         form.instance.user_id = self.request.user
@@ -37,7 +37,7 @@ class LinkCreateView(LoginRequiredMixin, CreateView):
 
 class LinkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Link
-    fields = ("link_name", "link_path", "image", "notes", "tags")
+    fields = ("link_name", "link_path", "image", "notes")
     template_name = "links/link_edit.html"
 
     def test_func(self):

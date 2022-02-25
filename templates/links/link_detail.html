@@ -1,0 +1,16 @@
+<!-- templates/links/link_detail.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ object.link_name }}{% endblock title %}
+
+{% block content %}
+    <div class="link-card">
+    <h2>{{ object.link_name }}</h2>
+    <img src="{{ object.image }}" alt="{{ object.link_name }} Image">
+    <p>{{ object.notes }}</p>
+    </div>
+
+    <p><a href="{% url 'link_edit' link.pk %}">Edit</a> |
+        <a href="{% url 'link_delete' link.pk %}">Delete</a></p>
+    <p>Back to <a href="{% url 'link_list' %}">All Links</a> </p>
+{% endblock content %}

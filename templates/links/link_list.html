@@ -1,0 +1,20 @@
+<!-- templates/links/link_list.html -->
+{% extends "base.html" %}
+
+{% block title %}Links{% endblock title %}
+
+{% block content %}
+    <h1>Links</h1>
+    <br>
+    <p><a href="{% url 'link_new' %}">Add a new link</a> </p>
+    {% for link in link_list %}
+        <div class="card-header">
+            <span class="font-weight-bold"><a href="{% url 'link_detail' link.pk %}">{{ link.link_name }}</a></span>
+        </div>
+        <div class="card-footer text-center text-muted">
+            <a href="{% url 'link_edit' link.pk %}">Edit</a> |
+            <a href="{% url 'link_delete' link.pk %}">Delete</a>
+        </div>
+        <br />
+    {% endfor %}
+{% endblock content %}

@@ -9,7 +9,8 @@ from django.views.generic import (
 )
 
 
-from .models import Link
+from .models import Link, Tag
+from .forms import CustomEditLinkForm
 
 # Create your views here.
 
@@ -17,7 +18,13 @@ from .models import Link
 class LinkListView(LoginRequiredMixin, ListView):
     model = Link
     context_object_name = "link_list"
-    template_name = "links/link_list.html"
+    template_name = "links/craftbox.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data()
+
+        ctx["tags"] = Tag.objects.filter(user=self.request.user)
+        return ctx
 
 
 class LinkDetailView(LoginRequiredMixin, DetailView):
@@ -28,21 +35,18 @@ class LinkDetailView(LoginRequiredMixin, DetailView):
 class LinkCreateView(LoginRequiredMixin, CreateView):
     model = Link
     template_name = "links/link_new.html"
-    fields = ("link_name", "link_path", "image", "notes")
+    fields = ("link_name", "link_path", "image", "notes", "tags")
 
     def form_valid(self, form):
-        form.instance.user_id = self.request.user
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
 
-class LinkUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class LinkUpdateView(LoginRequiredMixin, UpdateView):
     model = Link
-    fields = ("link_name", "link_path", "image", "notes")
+    form_class = CustomEditLinkForm
+    success_url = reverse_lazy("link_list")
     template_name = "links/link_edit.html"
-
-    def test_func(self):
-        obj = self.get_object()
-        return obj.user_id == self.request.user
 
 
 class LinkDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -52,4 +56,36 @@ class LinkDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         obj = self.get_object()
-        return obj.user_id == self.request.user
+        return obj.user == self.request.user
+
+
+class TagCreateView(LoginRequiredMixin, CreateView):
+    model = Tag
+    template_name = "tags/tag_create.html"
+    fields = ("tag_name",)
+    success_url = reverse_lazy("link_list")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class TagUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Tag
+    fields = ("tag_name",)
+    template_name = "tags/tag_edit.html"
+    success_url = reverse_lazy("link_list")
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.user == self.request.user
+
+
+class TagDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Tag
+    template_name = "tags/tag_delete.html"
+    success_url = reverse_lazy("link_list")
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.user == self.request.user

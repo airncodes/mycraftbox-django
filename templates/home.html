@@ -1,15 +1,53 @@
 <!-- templates/home.html -->
 {% extends "base.html" %}
-
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf">
+</head>
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        Hi {{ user.first_name }}
-        <a href="{% url 'logout' %}">Log Out</a>
-    {% else %}
-        <p>You are not logged in</p>
-        <a href="{% url 'login' %}">Log In</a> |
-        <a href="{% url 'signup' %}">Sign Up</a>
-    {% endif %}
+    <body class="d-flex h-100 text-center text-white bg-dark">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <header class="mb-auto">
+                <div>
+                    <h3 class="float-md-start mb-0">MyCraftBox</h3>
+                    <nav class="nav nav-masthead justify-content-center float-md-end">
+                    <a class="nav-link active" href="{% url 'link_list' %}">MyCraftBox</a>
+                    <a class="nav-link" href ="{% url 'logout' %}">Log Out</a>
+                    </nav>
+                </div>
+            </header>
+            <main class="px-3">
+                <br>
+                {% if user.is_authenticated %}
+                    <div>
+                        <h1>Hi {{ user.first_name }}</h1>
+                        <p class="lead">
+                            Visit your craftbox:
+                            <a href="{% url 'link_list' %}">{{ user.first_name }}'s Craftbox</a>
+                        </p>
+                    </div>
+                {% else %}
+                    <div>
+                        <p>You are not logged in</p>
+                        <a href="{% url 'login' %}">Log In</a> |
+                        <a href="{% url 'signup' %}">Sign Up</a>
+                    </div>
+                {% endif %}
+            </main>
+             <br>
+
+            <footer class="mt-auto text-white-50">
+                <p class="header">My Craft Box is ...</p>
+                <ul class="homepage list-unstyled">
+                    <li class="homepage">A place where you can store all your favorite links</li>
+                    <li class="homepage">A place where you can organize them</li>
+                    <li class="homepage">A place where you can add a note</li>
+                </ul>
+            </footer>
+        </div>
+    </body>
+
 {% endblock content %}
+</html>

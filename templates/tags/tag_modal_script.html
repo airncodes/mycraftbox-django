@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <body>
+    <script>
+        $(document).on("click", ".open-tag", function (e) {
+            e.preventDefault();
+            const $popup =$("#popup");
+            const popup_url = $(this).data("popup-url");
+            $(".modal-body", $popup).load(popup_url, function () {
+                $popup.modal("show");
+            });
+        });
+    </script>
+    </body>
+{% endblock %}

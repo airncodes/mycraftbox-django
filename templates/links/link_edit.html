@@ -5,9 +5,9 @@
 {% block title %}Edit Link{% endblock title %}
 
 {% block content %}
-    <h2>What do you want to edit?</h2>
-    <form method="post">{% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-success ml-2" type="submit">Edit link</button>
-    </form>
+  <h2>What do you want to edit?</h2>
+  <form method="post">{% csrf_token %}
+    {{ form|crispy }}
+    <button class="btn btn-success ml-2" type="submit">Edit link</button>
+  </form>
 {% endblock content %}

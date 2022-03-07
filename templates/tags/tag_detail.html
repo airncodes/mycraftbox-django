@@ -1,0 +1,35 @@
+<!-- templates/tags/tag_detail.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+    <body>
+      <h3 class="bg-secondary text-white pl-2">
+        {{ object.tag_name }} Tag
+      </h3>
+
+      <div>
+        All cards associated with {{ object.tag_name }}:
+        {{ object.link_name }}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <div class="col">
+            {% for link in links %}
+              <div class="card h-100">
+                <img src="{{ link.image }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title"><a href="{% url 'link_detail' link.pk %}">{{ link.link_name }}</a></h5>
+                  <p class="card-text">{{ link.notes }}</p>
+                </div>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">
+                  <a href="{% url 'link_edit' link.pk %}">Edit</a> |
+                  <a href="{% url 'link_delete' link.pk %}">Delete</a>
+                </small>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </body>
+{% endblock %}

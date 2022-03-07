@@ -5,9 +5,9 @@
 {% block title %}New Tag{% endblock title %}
 
 {% block content %}
-    <h2>Add a new tag</h2>
-    <form method="post">{% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-success ml-2" type="submit">Add Tag</button>
-    </form>
+  <h2>Add a new tag</h2>
+  <form method="post">{% csrf_token %}
+    {{ form|crispy }}
+    <button class="btn btn-success ml-2" type="submit">Add Tag</button>
+  </form>
 {% endblock content %}
